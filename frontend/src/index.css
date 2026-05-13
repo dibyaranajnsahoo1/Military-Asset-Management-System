@@ -1,0 +1,241 @@
+/* ── Global Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+html, body { margin: 0; padding: 0; background: #F1F5F9; }
+
+/* ── Scrollbar ───────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: #F1F5F9; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+
+/* ── Modal ───────────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(15,23,42,0.55);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+}
+.modal-box {
+  background: white; border-radius: 20px; width: 100%;
+  max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 25px 60px -12px rgba(0,0,0,0.3);
+  animation: modalIn 0.2s ease;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Sidebar Navigation ──────────────────────────────────────────── */
+.sidebar-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 10px; cursor: pointer;
+  transition: all 0.15s ease; color: #64748B;
+  font-size: 13.5px; font-weight: 500;
+  border: none; background: transparent; width: 100%; text-align: left;
+}
+.sidebar-link:hover { background: #F1F5F9; color: #0F172A; }
+.sidebar-link.active { background: #EFF6FF; color: #2563EB; font-weight: 600; }
+
+/* ── Cards ───────────────────────────────────────────────────────── */
+.metric-card {
+  background: white; border-radius: 16px; padding: 22px;
+  border: 1px solid #E2E8F0; transition: all 0.2s ease;
+}
+.metric-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateY(-2px); }
+.metric-card.clickable { cursor: pointer; }
+.metric-card.clickable:hover { border-color: #93C5FD; box-shadow: 0 8px 24px rgba(37,99,235,0.12); }
+.section-card { background: white; border-radius: 16px; border: 1px solid #E2E8F0; overflow: hidden; margin-bottom: 20px; }
+.section-header { padding: 16px 20px; border-bottom: 1px solid #F1F5F9; display: flex; justify-content: space-between; align-items: center; }
+
+/* ── Buttons ─────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 18px; border-radius: 10px;
+  font-size: 13.5px; font-weight: 600; cursor: pointer;
+  border: none; transition: all 0.15s ease; line-height: 1;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: #2563EB; color: white; }
+.btn-primary:hover { background: #1D4ED8; box-shadow: 0 4px 12px rgba(37,99,235,0.35); }
+.btn-secondary { background: #F8FAFC; color: #374151; border: 1.5px solid #E2E8F0; }
+.btn-secondary:hover { background: #F1F5F9; }
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+.btn-danger { background: #FEF2F2; color: #DC2626; border: 1.5px solid #FECACA; }
+.btn-danger:hover { background: #FEE2E2; }
+
+/* ── Forms ───────────────────────────────────────────────────────── */
+.form-label { display: block; font-size: 12.5px; font-weight: 600; color: #374151; margin-bottom: 5px; }
+.form-input {
+  width: 100%; padding: 9px 12px;
+  border: 1.5px solid #E2E8F0; border-radius: 9px;
+  font-size: 13.5px; color: #0F172A; background: white;
+  transition: border 0.15s, box-shadow 0.15s; outline: none;
+}
+.form-input:focus { border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+.form-group { margin-bottom: 14px; }
+
+/* ── Table ───────────────────────────────────────────────────────── */
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table thead th {
+  background: #F8FAFC; font-size: 11px; font-weight: 700;
+  color: #64748B; text-transform: uppercase; letter-spacing: 0.06em;
+  padding: 11px 16px; text-align: left; border-bottom: 1px solid #F1F5F9;
+  white-space: nowrap;
+}
+.data-table tbody tr { border-bottom: 1px solid #F8FAFC; transition: background 0.1s; }
+.data-table tbody tr:hover { background: #F8FAFC; }
+.data-table tbody td { padding: 12px 16px; font-size: 13.5px; color: #374151; vertical-align: middle; }
+.data-table tbody tr:last-child { border-bottom: none; }
+
+/* ── Tabs ────────────────────────────────────────────────────────── */
+.tab-btn {
+  padding: 8px 18px; border-radius: 9px; font-size: 13.5px;
+  font-weight: 500; cursor: pointer; border: none;
+  transition: all 0.15s; background: transparent; color: #64748B;
+}
+.tab-btn.active { background: #2563EB; color: white; font-weight: 600; }
+.tab-btn:not(.active):hover { background: #F1F5F9; color: #374151; }
+
+/* ── Toast ───────────────────────────────────────────────────────── */
+.toast {
+  position: fixed; top: 20px; right: 20px; z-index: 99999;
+  padding: 12px 20px; border-radius: 12px; font-size: 14px;
+  font-weight: 600; box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  display: flex; align-items: center; gap: 8px;
+  animation: toastIn 0.25s ease;
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── Badges ──────────────────────────────────────────────────────── */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 600; }
+.stat-pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 600; }
+
+/* ── Layout ──────────────────────────────────────────────────────── */
+.page-content { padding: 24px; flex: 1; overflow: auto; }
+.filter-bar { background: white; border: 1px solid #E2E8F0; border-radius: 14px; padding: 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin-bottom: 20px; }
+
+/* ── Inputs ──────────────────────────────────────────────────────── */
+input[type="date"], select { cursor: pointer; }
+input, select, textarea { font-family: 'Inter', sans-serif !important; }
+
+/* ── Responsive Utilities ────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .page-content { padding: 16px; }
+  
+  .sidebar-container {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    z-index: 1000;
+    height: 100vh;
+    transition: left 0.3s ease;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.1);
+  }
+  .sidebar-container.open {
+    left: 0;
+  }
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15,23,42,0.4);
+    z-index: 999;
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .sidebar-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  .header-container {
+    padding: 12px 16px !important;
+  }
+  
+  .mobile-menu-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 8px;
+    color: #0F172A;
+  }
+  .mobile-menu-btn:hover { background: #F1F5F9; }
+
+  .app-header-right {
+    gap: 8px !important;
+  }
+  
+  .header-date-base {
+    display: none !important;
+  }
+
+  .grid-3-col {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .filter-bar > div {
+    width: 100%;
+  }
+  .filter-bar .form-input, .filter-bar select {
+    width: 100% !important;
+  }
+  
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .section-header > div:last-child {
+    width: 100%;
+  }
+  .section-header button {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .modal-box {
+    margin: 10px;
+    max-height: 95vh;
+  }
+  
+  .login-card {
+    padding: 20px !important;
+  }
+  .grid-2-col {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.mobile-menu-btn {
+  display: none;
+}
+
+.grid-3-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.grid-2-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
