@@ -24,6 +24,8 @@ export default function Purchases({ user, assets, bases }) {
       if (filters.type) data = data.filter(p => p.assetId?.type === filters.type);
       if (filters.dateFrom) data = data.filter(p => p.purchaseDate >= filters.dateFrom);
       if (filters.dateTo)   data = data.filter(p => p.purchaseDate <= filters.dateTo);
+      // Sort by newest first
+      data.sort((a, b) => new Date(b.purchaseDate || b.createdAt) - new Date(a.purchaseDate || a.createdAt));
       setPurchases(data);
     } catch (err) {
       showToast(err.message, 'error');

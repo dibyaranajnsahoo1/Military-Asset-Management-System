@@ -24,6 +24,8 @@ export default function Transfers({ user, assets, bases }) {
       if (filters.type) data = data.filter(t => t.assetId?.type === filters.type);
       if (filters.dateFrom) data = data.filter(t => t.transferDate >= filters.dateFrom);
       if (filters.dateTo)   data = data.filter(t => t.transferDate <= filters.dateTo);
+      // Sort by newest first
+      data.sort((a, b) => new Date(b.transferDate || b.createdAt) - new Date(a.transferDate || a.createdAt));
       setTransfers(data);
     } catch (err) {
       showToast(err.message, 'error');
