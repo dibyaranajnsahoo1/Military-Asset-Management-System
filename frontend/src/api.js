@@ -44,7 +44,7 @@ export const api = {
   // Dashboard
   getDashboardMetrics: (qs = '') => request(`/dashboard/metrics${qs}`),
   getDashboardChart: (qs = '') => request(`/dashboard/chart${qs}`),
-  
+
   // Bases
   getBases: () => request('/bases'),
 
