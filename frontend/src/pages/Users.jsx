@@ -24,6 +24,7 @@ export default function UsersPage({ currentUser, bases }) {
     }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { fetchUsers(); }, []);
 
   const handleAdd = async () => {

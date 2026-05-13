@@ -32,6 +32,7 @@ export default function Purchases({ user, assets, bases }) {
     }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { fetchPurchases(); }, [filters]);
 
   const showToast = (msg, type = 'success') => { setToast({ msg, type }); setTimeout(() => setToast(null), 3000); };

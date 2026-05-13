@@ -51,6 +51,7 @@ export default function Assignments({ user, assets, bases }) {
   useEffect(() => {
     if (tab === 'assignments') fetchAssignments();
     else fetchExpenditures();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, tab]);
 
   const handleAssign = async () => {

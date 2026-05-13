@@ -1,5 +1,5 @@
 import { BarChart2, Eye, Package, Target, TrendingUp, UserCheck } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { EmptyState, FilterBar, Modal, TypeBadge } from '../components/common';
 import { fmtDate, fmtNum } from '../data';
