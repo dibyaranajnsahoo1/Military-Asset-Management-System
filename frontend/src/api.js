@@ -1,18 +1,42 @@
 // api.js
-// Utility for making API requests to the backend with cookies includ
+// Utility for making API requests to the backend with token-based authentication
 
-const API_BASE = 'https://military-asset-management-system-5ylk.onrender.com/api';
+const API_BASE = process.env.REACT_APP_API_URL || 'https://military-asset-management-system-5ylk.onrender.com/api';
 console.log("API_BASE =", API_BASE);
+
+// Storage keys
+const TOKEN_KEY = 'auth_token';
+
+// Get stored token
+const getToken = () => sessionStorage.getItem(TOKEN_KEY);
+
+// Set token
+const setToken = (token) => {
+  if (token) {
+    sessionStorage.setItem(TOKEN_KEY, token);
+  }
+};
+
+// Clear token
+const clearToken = () => {
+  sessionStorage.removeItem(TOKEN_KEY);
+};
+
 const request = async (endpoint, options = {}) => {
+  const token = getToken();
   const config = {
     ...options,
-    // ensure cookies are sent with requests
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       ...options.headers,
     },
   };
+
+  // Add Authorization header if token exists
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
 
   if (config.body && typeof config.body === 'object') {
     config.body = JSON.stringify(config.body);
@@ -23,7 +47,8 @@ const request = async (endpoint, options = {}) => {
 
   if (!response.ok) {
     if (response.status === 401 && window.location.pathname !== '/login') {
-      // Handle unauthorized (session expired)
+      // Clear token and notify about session expiration
+      clearToken();
       window.dispatchEvent(new Event('auth_expired'));
     }
     if (data.errors && Array.isArray(data.errors)) {
@@ -37,8 +62,19 @@ const request = async (endpoint, options = {}) => {
 
 export const api = {
   // Auth
-  login: (email, password) => request('/auth/login', { method: 'POST', body: { email, password } }),
-  logout: () => request('/auth/logout', { method: 'POST' }),
+  login: async (email, password) => {
+    const res = await request('/auth/login', { method: 'POST', body: { email, password } });
+    // Store token from login response
+    if (res.token) {
+      setToken(res.token);
+    }
+    return res;
+  },
+  logout: async () => {
+    const res = await request('/auth/logout', { method: 'POST' });
+    clearToken();
+    return res;
+  },
   getMe: () => request('/auth/me'),
 
   // Dashboard

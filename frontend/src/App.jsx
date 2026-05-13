@@ -85,13 +85,20 @@ export default function App() {
 
   // Listen for auth expiration
   useEffect(() => {
-    const handleAuthExpired = () => { setUser(null); };
+    const handleAuthExpired = () => {
+      setUser(null);
+      // Clear token from sessionStorage
+      sessionStorage.removeItem('auth_token');
+    };
     window.addEventListener('auth_expired', handleAuthExpired);
     return () => window.removeEventListener('auth_expired', handleAuthExpired);
   }, []);
 
   const handleLogin  = (u) => { setUser(u); setPage(ROLE_ACCESS[u.role]?.[0] || 'dashboard'); };
-  const handleLogout = ()  => { api.logout().finally(() => { setUser(null); setPage('dashboard'); }); };
+  const handleLogout = ()  => { 
+    sessionStorage.removeItem('auth_token');
+    api.logout().finally(() => { setUser(null); setPage('dashboard'); }); 
+  };
   const handlePageChange = (p) => { setPage(p); setSidebarOpen(false); };
 
   if (loadingApp) return <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading...</div>;
