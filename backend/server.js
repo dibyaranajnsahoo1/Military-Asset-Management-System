@@ -18,8 +18,21 @@ connectDB();
 
 // ─── Security Middleware ───────────────────────────────────────────────────
 app.use(helmet());
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(',')
+  : [];
+
 app.use(cors({
-  origin: process.env.ALLOWED_ORIGINS?.split(',') || '*',
+  origin: function (origin, callback) {
+    // allow requests with no origin
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 
@@ -44,16 +57,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // ─── API Routes ────────────────────────────────────────────────────────────
-app.use('/api/auth',        authLimiter, require('./routes/auth'));
-app.use('/api/dashboard',              require('./routes/dashboard'));
-app.use('/api/bases',                  require('./routes/bases'));
-app.use('/api/assets',                 require('./routes/assets'));
-app.use('/api/purchases',              require('./routes/purchases'));
-app.use('/api/transfers',              require('./routes/transfers'));
-app.use('/api/assignments',            require('./routes/assignments'));
-app.use('/api/expenditures',           require('./routes/expenditures'));
-app.use('/api/users',                  require('./routes/users'));
-app.use('/api/audit-logs',             require('./routes/auditLogs'));
+app.use('/api/auth', authLimiter, require('./routes/auth'));
+app.use('/api/dashboard', require('./routes/dashboard'));
+app.use('/api/bases', require('./routes/bases'));
+app.use('/api/assets', require('./routes/assets'));
+app.use('/api/purchases', require('./routes/purchases'));
+app.use('/api/transfers', require('./routes/transfers'));
+app.use('/api/assignments', require('./routes/assignments'));
+app.use('/api/expenditures', require('./routes/expenditures'));
+app.use('/api/users', require('./routes/users'));
+app.use('/api/audit-logs', require('./routes/auditLogs'));
 
 // ─── Health Check ──────────────────────────────────────────────────────────
 app.get('/health', (req, res) => {
