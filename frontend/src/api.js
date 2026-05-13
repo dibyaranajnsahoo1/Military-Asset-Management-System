@@ -2,7 +2,7 @@
 // Utility for making API requests to the backend with cookies includ
 
 const API_BASE = 'https://military-asset-management-system-5ylk.onrender.com/api';
-
+console.log("API_BASE =", API_BASE);
 const request = async (endpoint, options = {}) => {
   const config = {
     ...options,
