@@ -1,7 +1,7 @@
 // api.js
 // Utility for making API requests to the backend with token-based authentication
 
-const API_BASE = process.env.REACT_APP_API_URL || 'https://military-asset-management-system-5ylk.onrender.com/api';
+const API_BASE = process.env.REACT_APP_API_BASE ;
 // console.log("API_BASE =", API_BASE);
 
 // Storage keys
