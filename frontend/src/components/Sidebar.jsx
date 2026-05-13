@@ -3,17 +3,17 @@ import { ROLE_ACCESS, ROLE_CFG } from '../data';
 import { RoleBadge } from './common';
 
 const NAV_ITEMS = [
-  { id: 'dashboard',   label: 'Dashboard',        Icon: LayoutDashboard },
-  { id: 'purchases',   label: 'Purchases',         Icon: ShoppingCart    },
-  { id: 'transfers',   label: 'Transfers',         Icon: ArrowLeftRight  },
-  { id: 'assignments', label: 'Assignments',       Icon: UserCheck       },
-  { id: 'users',       label: 'User Management',   Icon: Users           },
+  { id: 'dashboard', label: 'Dashboard', Icon: LayoutDashboard },
+  { id: 'purchases', label: 'Purchases', Icon: ShoppingCart },
+  { id: 'transfers', label: 'Transfers', Icon: ArrowLeftRight },
+  { id: 'assignments', label: 'Assignments', Icon: UserCheck },
+  { id: 'users', label: 'User Management', Icon: Users },
 ];
 
 export default function Sidebar({ user, activePage, setActivePage, onLogout, bases }) {
-  const allowed  = ROLE_ACCESS[user.role] || [];
+  const allowed = ROLE_ACCESS[user.role] || [];
   const baseName = user.baseId ? bases?.find(b => b._id === user.baseId || b.id === user.baseId)?.name : null;
-  const roleCfg  = ROLE_CFG[user.role] || {};
+  // const roleCfg  = ROLE_CFG[user.role] || {};
 
   return (
     <div style={{ width: 232, height: '100vh', background: '#FFFFFF', borderRight: '1px solid #E2E8F0', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
