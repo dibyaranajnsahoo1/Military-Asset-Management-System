@@ -1,5 +1,5 @@
 // api.js
-// Utility for making API requests to the backend with cookies included.
+// Utility for making API requests to the backend with cookies includ
 
 const API_BASE = process.env.REACT_APP_API_URL || '/api';
 
@@ -72,3 +72,4 @@ export const api = {
   createUser: (data) => request('/users', { method: 'POST', body: data }),
   deleteUser: (id) => request(`/users/${id}`, { method: 'DELETE' }),
 };
+// ok
