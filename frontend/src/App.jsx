@@ -20,6 +20,16 @@ const PAGE_META = {
   users:       { title: 'User Management',               sub: 'Manage system access and permissions'          },
 };
 
+const normalizeUser = (u) => {
+  const base = u.baseId || u.base || null;
+  return {
+    ...u,
+    id: u.id || u._id,
+    base,
+    baseId: base?._id || base?.id || base || null,
+  };
+};
+
 // ─── HEADER ─────────────────────────────────────────────────────────────────
 function Header({ page, user, onToggleSidebar, bases }) {
   const meta    = PAGE_META[page] || {};
@@ -65,8 +75,9 @@ export default function App() {
   // Check auth on mount
   useEffect(() => {
     api.getMe().then(res => {
-      setUser(res.user);
-      setPage(ROLE_ACCESS[res.user.role]?.[0] || 'dashboard');
+      const nextUser = normalizeUser(res.user);
+      setUser(nextUser);
+      setPage(ROLE_ACCESS[nextUser.role]?.[0] || 'dashboard');
     }).catch(() => {
       // Not logged in
     }).finally(() => setLoadingApp(false));
@@ -94,7 +105,11 @@ export default function App() {
     return () => window.removeEventListener('auth_expired', handleAuthExpired);
   }, []);
 
-  const handleLogin  = (u) => { setUser(u); setPage(ROLE_ACCESS[u.role]?.[0] || 'dashboard'); };
+  const handleLogin  = (u) => {
+    const nextUser = normalizeUser(u);
+    setUser(nextUser);
+    setPage(ROLE_ACCESS[nextUser.role]?.[0] || 'dashboard');
+  };
   const handleLogout = ()  => { 
     sessionStorage.removeItem('auth_token');
     api.logout().finally(() => { setUser(null); setPage('dashboard'); }); 

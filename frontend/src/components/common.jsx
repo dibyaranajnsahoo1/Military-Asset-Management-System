@@ -1,5 +1,5 @@
 import { X, Package } from 'lucide-react';
-import { BASES, TYPE_CFG, ROLE_CFG, ASSET_TYPES } from '../data';
+import { TYPE_CFG, ROLE_CFG, ASSET_TYPES } from '../data';
 
 // ─── TYPE BADGE ────────────────────────────────────────────────────────────
 export const TypeBadge = ({ type }) => {
@@ -55,7 +55,7 @@ export const Modal = ({ title, subtitle, onClose, children, maxWidth = 540 }) =>
 );
 
 // ─── FILTER BAR ────────────────────────────────────────────────────────────
-export const FilterBar = ({ filters, setFilters, showBase, user }) => (
+export const FilterBar = ({ filters, setFilters, showBase, user, bases = [] }) => (
   <div className="filter-bar">
     <div>
       <label className="form-label">From Date</label>
@@ -70,7 +70,10 @@ export const FilterBar = ({ filters, setFilters, showBase, user }) => (
         <label className="form-label">Base</label>
         <select className="form-input" value={filters.base} onChange={e => setFilters(f => ({ ...f, base: e.target.value }))} style={{ width: 155 }}>
           <option value="">All Bases</option>
-          {BASES.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
+          {bases.map(b => {
+            const id = b._id || b.id;
+            return <option key={id} value={id}>{b.name}</option>;
+          })}
         </select>
       </div>
     )}

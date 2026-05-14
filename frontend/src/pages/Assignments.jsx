@@ -27,8 +27,8 @@ export default function Assignments({ user, assets, bases }) {
       let data = res.data || [];
       if (filters.base) data = data.filter(r => r.baseId?._id === filters.base || r.baseId === filters.base);
       if (filters.type) data = data.filter(r => r.assetId?.type === filters.type);
-      if (filters.dateFrom) data = data.filter(r => r.assignmentDate >= filters.dateFrom);
-      if (filters.dateTo)   data = data.filter(r => r.assignmentDate <= filters.dateTo);
+      if (filters.dateFrom) data = data.filter(r => r.assignmentDate?.slice(0, 10) >= filters.dateFrom);
+      if (filters.dateTo)   data = data.filter(r => r.assignmentDate?.slice(0, 10) <= filters.dateTo);
       setAssignments(data);
     } catch (err) { showToast(err.message, 'error'); }
     finally { setLoadingA(false); }
@@ -41,8 +41,8 @@ export default function Assignments({ user, assets, bases }) {
       let data = res.data || [];
       if (filters.base) data = data.filter(r => r.baseId?._id === filters.base || r.baseId === filters.base);
       if (filters.type) data = data.filter(r => r.assetId?.type === filters.type);
-      if (filters.dateFrom) data = data.filter(r => r.dateExpended >= filters.dateFrom);
-      if (filters.dateTo)   data = data.filter(r => r.dateExpended <= filters.dateTo);
+      if (filters.dateFrom) data = data.filter(r => r.dateExpended?.slice(0, 10) >= filters.dateFrom);
+      if (filters.dateTo)   data = data.filter(r => r.dateExpended?.slice(0, 10) <= filters.dateTo);
       setExpenditures(data);
     } catch (err) { showToast(err.message, 'error'); }
     finally { setLoadingE(false); }
@@ -97,7 +97,7 @@ export default function Assignments({ user, assets, bases }) {
   return (
     <div className="page-content">
       <Toast toast={toast} />
-      <FilterBar filters={filters} setFilters={setFilters} showBase user={user} />
+      <FilterBar filters={filters} setFilters={setFilters} showBase user={user} bases={bases} />
 
       {/* Tab switcher */}
       <div style={{ display: 'flex', gap: 6, marginBottom: 16, background: '#F8FAFC', padding: 5, borderRadius: 12, width: 'fit-content', border: '1px solid #E2E8F0' }}>

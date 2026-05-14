@@ -22,8 +22,8 @@ export default function Purchases({ user, assets, bases }) {
       let data = res.data || [];
       if (filters.base) data = data.filter(p => p.baseId?._id === filters.base || p.baseId === filters.base);
       if (filters.type) data = data.filter(p => p.assetId?.type === filters.type);
-      if (filters.dateFrom) data = data.filter(p => p.purchaseDate >= filters.dateFrom);
-      if (filters.dateTo)   data = data.filter(p => p.purchaseDate <= filters.dateTo);
+      if (filters.dateFrom) data = data.filter(p => p.purchaseDate?.slice(0, 10) >= filters.dateFrom);
+      if (filters.dateTo)   data = data.filter(p => p.purchaseDate?.slice(0, 10) <= filters.dateTo);
       // Sort by newest first
       data.sort((a, b) => new Date(b.purchaseDate || b.createdAt) - new Date(a.purchaseDate || a.createdAt));
       setPurchases(data);
@@ -66,7 +66,7 @@ export default function Purchases({ user, assets, bases }) {
   return (
     <div className="page-content">
       <Toast toast={toast} />
-      <FilterBar filters={filters} setFilters={setFilters} showBase user={user} />
+      <FilterBar filters={filters} setFilters={setFilters} showBase user={user} bases={bases} />
 
       <div className="section-card">
         <div className="section-header">

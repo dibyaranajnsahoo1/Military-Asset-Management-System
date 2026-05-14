@@ -160,7 +160,7 @@ export default function Dashboard({ user, assets, bases }) {
 
   return (
     <div className="page-content">
-      <FilterBar filters={filters} setFilters={setFilters} showBase user={user} />
+      <FilterBar filters={filters} setFilters={setFilters} showBase user={user} bases={bases} />
 
       {/* Metric Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(195px,1fr))', gap: 14, marginBottom: 20 }}>

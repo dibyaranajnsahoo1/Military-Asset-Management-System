@@ -22,8 +22,8 @@ export default function Transfers({ user, assets, bases }) {
       let data = res.data || [];
       if (filters.base) data = data.filter(t => t.fromBaseId?._id === filters.base || t.toBaseId?._id === filters.base || t.fromBaseId === filters.base || t.toBaseId === filters.base);
       if (filters.type) data = data.filter(t => t.assetId?.type === filters.type);
-      if (filters.dateFrom) data = data.filter(t => t.transferDate >= filters.dateFrom);
-      if (filters.dateTo)   data = data.filter(t => t.transferDate <= filters.dateTo);
+      if (filters.dateFrom) data = data.filter(t => t.transferDate?.slice(0, 10) >= filters.dateFrom);
+      if (filters.dateTo)   data = data.filter(t => t.transferDate?.slice(0, 10) <= filters.dateTo);
       // Sort by newest first
       data.sort((a, b) => new Date(b.transferDate || b.createdAt) - new Date(a.transferDate || a.createdAt));
       setTransfers(data);
@@ -69,7 +69,7 @@ export default function Transfers({ user, assets, bases }) {
   return (
     <div className="page-content">
       <Toast toast={toast} />
-      <FilterBar filters={filters} setFilters={setFilters} showBase user={user} />
+      <FilterBar filters={filters} setFilters={setFilters} showBase user={user} bases={bases} />
 
       <div className="section-card">
         <div className="section-header">
