@@ -61,6 +61,7 @@ router.post('/login', [
         name:     user.name,
         email:    user.email,
         role:     user.role,
+        baseId:   user.baseId?._id || null,
         base:     user.baseId,
         lastLogin: user.lastLogin,
       },
