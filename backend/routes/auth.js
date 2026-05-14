@@ -14,7 +14,7 @@ const generateToken = (userId) =>
 const DEMO_CREDENTIALS = {
   'admin@military.gov': 'admin123',
   'commander@alpha.mil': 'commander123',
-  'logistics@bravo.mil': 'logistics123',
+  'logistics@bravo.mill': 'logistics123',
 };
 
 const repairDemoPasswordIfNeeded = async (user, email, password) => {
