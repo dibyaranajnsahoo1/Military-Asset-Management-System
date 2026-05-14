@@ -82,7 +82,7 @@ export default function Login({ onLogin }) {
               {[
                 { name: 'Gen. Admin', email: 'admin@military.gov', password: 'admin123', role: 'Admin' },
                 { name: 'Col. James Wilson', email: 'commander@alpha.mil', password: 'commander123', role: 'BaseCommander' },
-                { name: 'Lt. Sarah Chen', email: 'logistics@bravo.mil', password: 'logistics123', role: 'LogisticsOfficer' },
+                { name: 'Lt. Sarah Chen', email: 'logistics@bravo.mill', password: 'logistics123', role: 'LogisticsOfficer' },
               ].map(u => (
                 <button key={u.email} onClick={() => quickLogin(u.email, u.password)}
                   style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#F8FAFC', border: '1.5px solid #E2E8F0', borderRadius: 11, cursor: 'pointer', transition: 'all 0.15s', width: '100%' }}
