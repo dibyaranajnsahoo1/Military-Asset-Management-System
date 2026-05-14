@@ -278,7 +278,7 @@ usersRouter.use(protect);
 
 usersRouter.get('/', authorize('Admin'), async (req, res, next) => {
   try {
-    const users = await User.find().populate('baseId', 'name code').sort('name');
+    const users = await User.find({ isActive: true }).populate('baseId', 'name code').sort('name');
     res.json({ success: true, count: users.length, data: users });
   } catch (e) { next(e); }
 });
