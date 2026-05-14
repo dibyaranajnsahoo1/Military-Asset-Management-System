@@ -1,5 +1,5 @@
 import { BarChart2, Eye, Package, Target, TrendingUp, UserCheck } from 'lucide-react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { EmptyState, FilterBar, Modal, TypeBadge } from '../components/common';
 import { fmtDate, fmtNum } from '../data';
@@ -116,11 +116,17 @@ export default function Dashboard({ user, assets, bases }) {
   const [showNetModal,  setShowNetModal]  = useState(false);
   const [metrics,       setMetrics]       = useState(null);
   const [chartData,     setChartData]     = useState([]);
-  const [loading,       setLoading]       = useState(true);
+  const [initialLoading,setInitialLoading]= useState(true);
+  const [refreshing,    setRefreshing]    = useState(false);
+  const hasLoadedDashboard = useRef(false);
 
   useEffect(() => {
     const fetchDashboard = async () => {
-      setLoading(true);
+      if (hasLoadedDashboard.current) {
+        setRefreshing(true);
+      } else {
+        setInitialLoading(true);
+      }
       try {
         const queryParams = new URLSearchParams();
         if (filters.base) queryParams.append('baseId', filters.base);
@@ -138,13 +144,15 @@ export default function Dashboard({ user, assets, bases }) {
       } catch (err) {
         console.error(err);
       } finally {
-        setLoading(false);
+        setInitialLoading(false);
+        setRefreshing(false);
+        hasLoadedDashboard.current = true;
       }
     };
     fetchDashboard();
   }, [filters]);
 
-  if (loading || !metrics) return <div style={{ padding: 40, textAlign: 'center' }}>Loading dashboard...</div>;
+  if (initialLoading || !metrics) return <div style={{ padding: 40, textAlign: 'center' }}>Loading dashboard...</div>;
 
   const CARDS = [
     { key: 'openingBalance', label: 'Opening Balance', value: metrics.openingBalance,  color: '#7C3AED', bg: '#F5F3FF', Icon: Package,  sub: 'Initial period stock'   },
@@ -160,7 +168,14 @@ export default function Dashboard({ user, assets, bases }) {
 
   return (
     <div className="page-content">
-      <FilterBar filters={filters} setFilters={setFilters} showBase user={user} bases={bases} />
+      <div style={{ position: 'relative' }}>
+        <FilterBar filters={filters} setFilters={setFilters} showBase user={user} bases={bases} />
+        {refreshing && (
+          <div style={{ position: 'absolute', right: 0, top: -28, fontSize: 12, color: '#64748B', fontWeight: 600 }}>
+            Updating filters...
+          </div>
+        )}
+      </div>
 
       {/* Metric Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(195px,1fr))', gap: 14, marginBottom: 20 }}>

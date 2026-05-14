@@ -9,12 +9,12 @@ export default function Login({ onLogin }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (loginEmail = email, loginPassword = password) => {
     setError('');
-    if (!email || !password) { setError('Please enter your email and password.'); return; }
+    if (!loginEmail || !loginPassword) { setError('Please enter your email and password.'); return; }
     setLoading(true);
     try {
-      const res = await api.login(email, password);
+      const res = await api.login(loginEmail.trim(), loginPassword);
       onLogin(res.user);
     } catch (err) {
       setError(err.message || 'Invalid credentials.');
@@ -23,7 +23,11 @@ export default function Login({ onLogin }) {
     }
   };
 
-  const quickLogin = (uEmail, uPass) => { setEmail(uEmail); setPassword(uPass); setTimeout(() => document.getElementById('login-btn').click(), 100); };
+  const quickLogin = (uEmail, uPass) => {
+    setEmail(uEmail);
+    setPassword(uPass);
+    handleSubmit(uEmail, uPass);
+  };
 
   return (
     <div style={{ minHeight: '100vh', background: 'linear-gradient(145deg,#0F172A 0%,#1E3A5F 55%,#0C2340 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
