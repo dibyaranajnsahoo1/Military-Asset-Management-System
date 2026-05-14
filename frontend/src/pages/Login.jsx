@@ -10,11 +10,14 @@ export default function Login({ onLogin }) {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (loginEmail = email, loginPassword = password) => {
+    const nextEmail = typeof loginEmail === 'string' ? loginEmail : email;
+    const nextPassword = typeof loginPassword === 'string' ? loginPassword : password;
+
     setError('');
-    if (!loginEmail || !loginPassword) { setError('Please enter your email and password.'); return; }
+    if (!nextEmail || !nextPassword) { setError('Please enter your email and password.'); return; }
     setLoading(true);
     try {
-      const res = await api.login(loginEmail.trim(), loginPassword);
+      const res = await api.login(nextEmail.trim(), nextPassword);
       onLogin(res.user);
     } catch (err) {
       setError(err.message || 'Invalid credentials.');
