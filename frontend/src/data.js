@@ -1,7 +1,22 @@
 // ─── HELPERS ──────────────────────────────────────────────────────────────
 export const mkId  = () => '_' + Math.random().toString(36).substr(2, 9);
 export const mkDate = (d) => { const x = new Date(); x.setDate(x.getDate() - d); return x.toISOString().split('T')[0]; };
-export const fmtDate = (d) => { try { return new Date(d + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); } catch { return d; } };
+export const fmtDate = (d) => {
+  if (!d) return '—';
+
+  const value = typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d)
+    ? `${d}T00:00:00`
+    : d;
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) return '—';
+
+  return date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+};
 export const fmtNum  = (n) => {
   if (typeof n !== 'number' || isNaN(n)) return '0';
   if (Math.abs(n) >= 1000000) return (n / 1000000).toFixed(1) + 'M';
