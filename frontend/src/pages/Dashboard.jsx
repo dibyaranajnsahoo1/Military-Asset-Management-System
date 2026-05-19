@@ -68,10 +68,10 @@ function NetMovementModal({ metrics, bases, onClose }) {
               metrics.purchasesList.length === 0
                 ? <tr><td colSpan={5}><EmptyState message="No purchases in this period" /></td></tr>
                 : metrics.purchasesList.map(p => (
-                  <tr key={p.id}>
-                    <td style={{ fontWeight: 600 }}>{p.assetName}</td>
-                    <td><TypeBadge type={p.assetType} /></td>
-                    <td style={{ color: '#64748B' }}>{bases.find(b => b._id === p.baseId?._id || b.id === p.baseId)?.name || p.baseId?.name || '—'}</td>
+                  <tr key={p._id || p.id}>
+                    <td style={{ fontWeight: 600 }}>{p.assetId?.name || p.assetName}</td>
+                    <td><TypeBadge type={p.assetId?.type || p.assetType} /></td>
+                    <td style={{ color: '#64748B' }}>{bases.find(b => b._id === p.baseId || b._id === p.baseId?._id || b.id === p.baseId)?.name || p.baseId?.name || '—'}</td>
                     <td style={{ textAlign: 'right', fontWeight: 700, color: '#059669' }}>+{fmtNum(p.quantity)}</td>
                     <td style={{ color: '#94A3B8' }}>{fmtDate(p.purchaseDate)}</td>
                   </tr>
@@ -84,7 +84,7 @@ function NetMovementModal({ metrics, bases, onClose }) {
                   <tr key={t._id || t.id}>
                     <td style={{ fontWeight: 600 }}>{t.assetId?.name || t.assetName}</td>
                     <td><TypeBadge type={t.assetId?.type || t.assetType} /></td>
-                    <td style={{ color: '#64748B' }}>{bases.find(b => b._id === t.fromBaseId?._id || b.id === t.fromBaseId)?.name || t.fromBaseId?.name || '—'}</td>
+                    <td style={{ color: '#64748B' }}>{bases.find(b => b._id === t.fromBaseId || b._id === t.fromBaseId?._id || b.id === t.fromBaseId)?.name || t.fromBaseId?.name || '—'}</td>
                     <td style={{ textAlign: 'right', fontWeight: 700, color: '#2563EB' }}>+{fmtNum(t.quantity)}</td>
                     <td style={{ color: '#94A3B8' }}>{fmtDate(t.transferDate)}</td>
                   </tr>
@@ -97,7 +97,7 @@ function NetMovementModal({ metrics, bases, onClose }) {
                   <tr key={t._id || t.id}>
                     <td style={{ fontWeight: 600 }}>{t.assetId?.name || t.assetName}</td>
                     <td><TypeBadge type={t.assetId?.type || t.assetType} /></td>
-                    <td style={{ color: '#64748B' }}>{bases.find(b => b._id === t.toBaseId?._id || b.id === t.toBaseId)?.name || t.toBaseId?.name || '—'}</td>
+                    <td style={{ color: '#64748B' }}>{bases.find(b => b._id === t.toBaseId || b._id === t.toBaseId?._id || b.id === t.toBaseId)?.name || t.toBaseId?.name || '—'}</td>
                     <td style={{ textAlign: 'right', fontWeight: 700, color: '#DC2626' }}>-{fmtNum(t.quantity)}</td>
                     <td style={{ color: '#94A3B8' }}>{fmtDate(t.transferDate)}</td>
                   </tr>
